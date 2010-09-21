@@ -1,0 +1,10 @@
+#!/bin/zsh
+# Output a list of all active block device I/O schedulers
+for dev in /sys/block/*/queue/scheduler; do
+	printf "%s\t%s\n" $(
+		echo ${dev}					|
+		/bin/sed						\
+			-e 's;/queue/scheduler;;'			\
+			-e 's;^/sys/block;/dev;'
+	) "$(<${dev})"
+done
